@@ -1,0 +1,4 @@
+---
+air_version: 1.16.0
+air_checksum: 528af084691693527e8fb374890240b9b40490430e1db781308e057cc803e127  air.tar.gz
+air_url: https://github.com/kyleconroy/air/releases/download/v{{ air_version }}/air_{{ air_version }}_linux_amd64.tar.gz
