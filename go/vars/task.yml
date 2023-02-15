@@ -1,0 +1,4 @@
+---
+task_version: 3.20.0
+task_checksum: sha256:9f35cf4478d58b055287c58212a6ef92a5389daff34e7ed772e55cc10682179a
+task_url: https://github.com/go-task/task/releases/download/v{{ task_version }}/task_linux_amd64.tar.gz

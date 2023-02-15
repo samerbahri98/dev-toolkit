@@ -1,0 +1,7 @@
+---
+- name: Download Air
+  ansible.builtin.get_url:
+    checksum: "{{ air_checksum }}"
+    url: "{{ air_url }}"
+    dest: "{{ playbook_dir }}/../dest/air"
+    mode: "775"

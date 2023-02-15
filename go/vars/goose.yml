@@ -1,4 +1,4 @@
 ---
 goose_version: 3.9.0
-goose_checksum: 90a40fa680722a102a16ed87cdc41261b7b33463052082b5ce93bc4c07ff8855  goose_linux_x86_64
+goose_checksum: sha256:90a40fa680722a102a16ed87cdc41261b7b33463052082b5ce93bc4c07ff8855
 goose_url: https://github.com/pressly/goose/releases/download/v{{ goose_version }}/goose_linux_x86_64

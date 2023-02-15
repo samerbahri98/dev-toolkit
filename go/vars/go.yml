@@ -1,0 +1,6 @@
+---
+go_packages:
+  - goose
+  - air
+  - sqlc
+  - task

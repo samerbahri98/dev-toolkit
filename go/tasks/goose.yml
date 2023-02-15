@@ -1,0 +1,7 @@
+---
+- name: Download Goose
+  ansible.builtin.get_url:
+    checksum: "{{ goose_checksum }}"
+    url: "{{ goose_url }}"
+    dest: "{{ playbook_dir }}/../dest/goose"
+    mode: "775"

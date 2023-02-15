@@ -1,4 +1,4 @@
 ---
 sqlc_version: 1.16.0
-sqlc_checksum: 528af084691693527e8fb374890240b9b40490430e1db781308e057cc803e127  sqlc.tar.gz
-sqlc_url: https://github.com/kyleconroy/sqlc/releases/download/v{{ sqlc_version }}/sqlc_{{ sqlc_version }}_linux_amd64.tar.gz
+sqlc_checksum: sha256:528af084691693527e8fb374890240b9b40490430e1db781308e057cc803e127
+sqlc_url: https://downloads.sqlc.dev/sqlc_{{ sqlc_version }}_linux_amd64.tar.gz

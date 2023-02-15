@@ -1,0 +1,14 @@
+---
+- name: Download sqlc
+  ansible.builtin.get_url:
+    checksum: "{{ sqlc_checksum }}"
+    url: "{{ sqlc_url }}"
+    dest: "{{ playbook_dir }}/../dest/sqlc.tar.gz"
+    mode: 775
+- name: Untar sqlc
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "{{ playbook_dir }}/../dest/sqlc.tar.gz"
+    dest: "{{ playbook_dir }}/../dest"
+    mode: 775
+    owner: "{{ ansible_user_id }}"

@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+  name: Build docker images
+  vars_files:
+    - "{{ playbook_dir }}/vars/air.yml"
+    - "{{ playbook_dir }}/vars/goose.yml"
+    - "{{ playbook_dir }}/vars/go.yml"
+    - "{{ playbook_dir }}/vars/sqlc.yml"
+    - "{{ playbook_dir }}/vars/task.yml"
+  tasks:
+    - name: Download Packages
+      ansible.builtin.include_tasks: ./tasks/{{ item }}.yml
+      loop: "{{ go_packages }}"

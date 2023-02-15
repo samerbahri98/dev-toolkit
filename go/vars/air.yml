@@ -1,4 +1,4 @@
 ---
-air_version: 1.16.0
-air_checksum: 528af084691693527e8fb374890240b9b40490430e1db781308e057cc803e127  air.tar.gz
-air_url: https://github.com/kyleconroy/air/releases/download/v{{ air_version }}/air_{{ air_version }}_linux_amd64.tar.gz
+air_version: 1.41.0
+air_checksum: sha256:563d9e145bfd3f27cd49a204b22501b27b7b88ee11a0fc7a52f42d6613886807
+air_url: https://github.com/cosmtrek/air/releases/download/v{{ air_version }}/air_{{ air_version }}_linux_amd64
