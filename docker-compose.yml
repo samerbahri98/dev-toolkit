@@ -1,0 +1,62 @@
+services:
+
+  traefik:
+    image: traefik:v3.4
+    restart: always
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.traefik.service: api@internal
+      traefik.http.routers.traefik.rule: "Host(`traefik.docker.localhost`)"
+      traefik.http.services.traefik.loadbalancer.server.port: "8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+    - 80:80
+    command:
+      - --providers.docker=true
+      - --api=true
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api
+    ports:
+    - 127.0.0.1:8000:8000
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.api.rule: "Host(`www.docker.localhost`) && PathPrefix(`/api/`)"
+      traefik.http.services.api.loadbalancer.server.port: "8000"
+    entrypoint: ["/app/.venv/bin/fastapi", "dev", "api/main.py", "--host=0.0.0.0"]
+    develop:
+      watch:
+        - path: ./api
+          action: sync
+          target: /app/api
+        - action: rebuild
+          path: uv.lock
+        - action: rebuild
+          path: Dockerfile
+
+  client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: client
+    working_dir: /app/client
+    entrypoint: ["pnpm","run","dev"]
+    labels:
+        traefik.enable: "true"
+        traefik.http.routers.client.rule: "Host(`www.docker.localhost`) && !PathPrefix(`/api/`)"
+        traefik.http.services.client.loadbalancer.server.port: "5173"
+    ports:
+    - 127.0.0.1:5173:5173
+    develop:
+      watch:
+        - path: ./client/src
+          action: sync
+          target: /app/client/src
+        - action: rebuild
+          path: pnpm-lock.yaml
+        - action: rebuild
+          path: Dockerfile
