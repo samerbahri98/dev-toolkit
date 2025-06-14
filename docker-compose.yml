@@ -1,0 +1,55 @@
+---
+
+services:
+
+  traefik:
+    image: traefik:v3.4
+    restart: always
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.traefik.service: api@internal
+      traefik.http.routers.traefik.rule: "Host(`traefik.docker.localhost`)"
+      traefik.http.services.traefik.loadbalancer.server.port: "8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    ports:
+      - 127.0.0.1:80:80
+    command:
+      - --providers.docker=true
+      - --api=true
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - PB_EMAIL=test@example.com
+      - PB_PASSWORD=1234567890
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.api.rule: "Host(`www.docker.localhost`) && (PathPrefix(`/api/`) || PathPrefix(`/_/`))"
+      traefik.http.services.api.loadbalancer.server.port: "8080"
+    volumes:
+      - ./pb/pb_data:/app/pb/pb_data:rw
+      - ./pb/hooks:/app/pb/hooks:ro
+      - ./pb/migrations:/app/pb/migrations:rw
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: web
+    working_dir: /app/web
+    entrypoint: ["pnpm", "run", "dev"]
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.web.rule: "Host(`www.docker.localhost`) && !PathPrefix(`/api/`)"
+      traefik.http.services.web.loadbalancer.server.port: "5173"
+    develop:
+      watch:
+        - path: ./web/src
+          action: sync+restart
+          target: /app/web/src
+        - action: rebuild
+          path: pnpm-lock.yaml
+        - action: rebuild
+          path: Dockerfile
