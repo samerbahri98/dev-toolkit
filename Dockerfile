@@ -18,7 +18,7 @@ RUN --mount=type=cache,id=uv,target=/root/.cache/uv \
     uv sync --locked --no-dev
 ENV PATH="/app/.venv/bin:$PATH"
 
-FROM node:${NODE_VERSION}-slim AS client
+FROM node:${NODE_VERSION}-slim AS web
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
 RUN npm install -g pnpm
@@ -32,7 +32,7 @@ FROM python:${PYTHON_VERSION}-slim-bookworm
 ENV NODE_ENV=production
 COPY --from=api --chown=www-data:www-data /app/.venv /app/.venv
 COPY --from=api --chown=www-data:www-data /app/api /app/api
-COPY --from=client --chown=www-data:www-data /app/client/build/ /app/static/
+COPY --from=web --chown=www-data:www-data /app/web/build/ /app/static/
 USER www-data
 WORKDIR /app
 EXPOSE 8000

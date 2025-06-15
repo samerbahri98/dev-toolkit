@@ -10,7 +10,7 @@ export default defineConfig({
 				extends: './vite.config.ts',
 				plugins: [svelteTesting()],
 				test: {
-					name: 'client',
+					name: 'web',
 					environment: 'jsdom',
 					clearMocks: true,
 					include: ['src/**/*.svelte.{test,spec}.{js,ts}'],

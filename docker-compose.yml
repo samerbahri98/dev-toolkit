@@ -38,24 +38,24 @@ services:
         - action: rebuild
           path: Dockerfile
 
-  client:
+  web:
     build:
       context: .
       dockerfile: Dockerfile
-      target: client
-    working_dir: /app/client
+      target: web
+    working_dir: /app/web
     entrypoint: ["pnpm","run","dev"]
     labels:
         traefik.enable: "true"
-        traefik.http.routers.client.rule: "Host(`www.docker.localhost`) && !PathPrefix(`/api/`)"
-        traefik.http.services.client.loadbalancer.server.port: "5173"
+        traefik.http.routers.web.rule: "Host(`www.docker.localhost`) && !PathPrefix(`/api/`)"
+        traefik.http.services.web.loadbalancer.server.port: "5173"
     ports:
     - 127.0.0.1:5173:5173
     develop:
       watch:
-        - path: ./client/src
+        - path: ./web/src
           action: sync
-          target: /app/client/src
+          target: /app/web/src
         - action: rebuild
           path: pnpm-lock.yaml
         - action: rebuild
