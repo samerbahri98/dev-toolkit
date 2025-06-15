@@ -45,6 +45,8 @@ jobs:
         run: uvx ruff check
       - name: format check
         run: uvx ruff format --check
+      - name: yamllint
+        run: uvx yamllint .
 
   image:
     runs-on: ubuntu-latest
